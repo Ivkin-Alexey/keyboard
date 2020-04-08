@@ -1,0 +1,53 @@
+.keyboard-input {
+    margin: 0 auto;
+    position: absolute;
+    top: 130px;
+    right: 30px;
+    width: 300px;
+}
+
+.keyboard-wrapper {
+    text-align: center;
+}
+
+.keyboard {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(63, 22, 126, 0.79);
+    user-select: none;
+    box-shadow:  0 -10px 70px 0 rgba(50, 50, 50, 0.57);
+    transition-property: bottom;
+    transition-duration: 0.5s;
+    text-align: center;
+
+}
+
+.keyboard__key {
+    width: 50px;
+    max-width: 90px;
+    height: 4vh;
+    cursor: pointer;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin: 5px;
+}
+
+.keyboard__key_wide {
+    width: 8%;
+    max-width: 180px;
+}
+
+.keyboard__key_wide:active {
+    width: 8%;
+    max-width: 180px;
+    color: #0fff3e;
+}
+
+.keyboard__key_very-wide {
+    width: 18%;
+    max-width: 400px;
+}
+
