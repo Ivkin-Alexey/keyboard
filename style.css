@@ -12,7 +12,7 @@
 }
 
 .keyboard {
-    background: rgba(63, 22, 126, 0.79);
+    background: rgba(74, 61, 60, 0.55);
     user-select: none;
     box-shadow:  0 -10px 70px 0 rgba(50, 50, 50, 0.57);
     display: flex;
@@ -23,6 +23,7 @@
     transition-duration: 0.5s;
     text-align: center;
     border-radius: 4px;
+    border: 5px solid rgba(42, 32, 31, 0.55);
     font-family: "Trebuchet MS", "Helvetica", sans-serif;
 }
 
@@ -37,12 +38,17 @@
     height: 4vh;
     cursor: pointer;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(43, 43, 43, 0.78);
     color: white;
     margin: 5px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px -2px 11px 0px rgba(50, 50, 50, 0.68);
+}
+
+.keyboard__key_inner {
+    color: #0cc928;
 }
 
 .keyboard__key_half-wide {

@@ -2,6 +2,7 @@ let lang = 'rus';
 let capsLock = 'lowerCase';
 let value = '';
 let onInput;
+let arr = [0, 1];
 const keys = [
     [{
         rus: {upperCase: 'Ё', lowerCase: 'ё'},
@@ -121,8 +122,8 @@ const keys = [
         keyCode: 'Delete'
     },],
     [{
-        rus: {upperCase: 'caps lock', lowerCase: 'caps lock'},
-        eng: {upperCase: 'caps lock', lowerCase: 'caps lock'},
+        rus: {upperCase: 'Caps lock', lowerCase: 'Caps lock'},
+        eng: {upperCase: 'Caps lock', lowerCase: 'Caps lock'},
         keyCode: 'CapsLock'
     }, {
         rus: {upperCase: 'Ф', lowerCase: 'ф'},
@@ -227,24 +228,24 @@ const keys = [
         keyCode: 'ShiftRight'
     },],
     [{
-        rus: {upperCase: 'ctrl', lowerCase: 'ctrl'},
-        eng: {upperCase: 'ctrl', lowerCase: 'ctrl'},
+        rus: {upperCase: 'Ctrl', lowerCase: 'Ctrl'},
+        eng: {upperCase: 'Ctrl', lowerCase: 'Ctrl'},
         keyCode: 'ControlLeft'
     }, {
-        rus: {upperCase: 'Win', lowerCase: 'Win'},
-        eng: {upperCase: 'Win', lowerCase: 'Win'},
-        keyCode: 'MetaLeft'
+        rus: {upperCase: 'Ru', lowerCase: 'Ru'},
+        eng: {upperCase: 'En', lowerCase: 'En'},
+        keyCode: 'langKey'
     }, {
-        rus: {upperCase: 'alt', lowerCase: 'alt'},
-        eng: {upperCase: 'alt', lowerCase: 'alt'},
+        rus: {upperCase: 'Alt', lowerCase: 'Alt'},
+        eng: {upperCase: 'Alt', lowerCase: 'Alt'},
         keyCode: 'AltLeft'
     }, {
         rus: {upperCase: '', lowerCase: ''},
         eng: {upperCase: '', lowerCase: ''},
         keyCode: 'Space'
     }, {
-        rus: {upperCase: 'alt', lowerCase: 'alt'},
-        eng: {upperCase: 'alt', lowerCase: 'alt'},
+        rus: {upperCase: 'Alt', lowerCase: 'Alt'},
+        eng: {upperCase: 'Alt', lowerCase: 'Alt'},
         keyCode: 'AltRight'
     }, {
         rus: {upperCase: '◄', lowerCase: '◄'},
@@ -259,8 +260,8 @@ const keys = [
         eng: {upperCase: '►', lowerCase: '►'},
         keyCode: 'ArrowRight'
     }, {
-        rus: {upperCase: 'ctrl', lowerCase: 'ctrl'},
-        eng: {upperCase: 'ctrl', lowerCase: 'ctrl'},
+        rus: {upperCase: 'Ctrl', lowerCase: 'Ctrl'},
+        eng: {upperCase: 'Ctrl', lowerCase: 'Ctrl'},
         keyCode: 'ControlRight'
     }],
 ];
@@ -276,79 +277,111 @@ const createKeys = () => {
             // Создаем отдельную клавишу в строке
             const keyElement = document.createElement('div');
             keyElement.classList.add('keyboard__key', key.keyCode);
-            if (key.keyCode === 'Tab' || key.keyCode === 'ControlLeft' || key.keyCode === 'AltLeft'|| key.keyCode === 'AltRight'|| key.keyCode === 'ControlRight') {
+            if (key.keyCode === 'Tab' || key.keyCode === 'ControlLeft' || key.keyCode === 'AltLeft' || key.keyCode === 'AltRight' || key.keyCode === 'ControlRight') {
                 keyElement.classList.add('keyboard__key_half-wide');
             } else if (key.keyCode === 'Backspace' || key.keyCode === 'ShiftRight' || key.keyCode === 'ShiftLeft' || key.keyCode === 'Enter') {
                 keyElement.classList.add('keyboard__key_wide');
             } else if (key.keyCode === 'CapsLock') {
                 keyElement.classList.add('keyboard__key_less-wide');
             } else if (key.keyCode === 'Space') {
-            keyElement.classList.add('keyboard__key_very-wide');
+                keyElement.classList.add('keyboard__key_very-wide');
+            } else if (key.keyCode === 'langKey') {
+                keyElement.classList.add('keyboard__key_inner');
             }
             for (let keyLang in key) {
-            // Добавляем обертку для разных языков
-            if (keyLang !== 'keyCode') {
-                const span = document.createElement('span');
-                span.classList.add(keyLang);
-                if (keyLang !== lang) {
-                    span.classList.add('hidden')
-                }
-                for (let prop in key[keyLang]) {
-                    // Добавляем обертку для разных регистров
-                    const propElement = document.createElement('span');
-                    propElement.classList.add(prop);
-                    if (prop !== capsLock) {
-                        propElement.classList.add('hidden')
+                // Добавляем обертку для разных языков
+                if (keyLang !== 'keyCode') {
+                    const span = document.createElement('span');
+                    span.classList.add(keyLang);
+                    if (keyLang !== lang) {
+                        span.classList.add('hidden')
                     }
-                    propElement.innerText = key[keyLang][prop];
-                    span.appendChild(propElement);
+                    for (let prop in key[keyLang]) {
+                        // Добавляем обертку для разных регистров
+                        const propElement = document.createElement('span');
+                        propElement.classList.add(prop);
+                        if (prop !== capsLock) {
+                            propElement.classList.add('hidden')
+                        }
+                        propElement.innerText = key[keyLang][prop];
+                        span.appendChild(propElement);
+                    }
+                    keyElement.appendChild(span);
                 }
-                keyElement.appendChild(span);
             }
-        }
-        //Add events to keys
-        switch (key.keyCode) {
-            case 'Backspace': {
-                keyElement.addEventListener('click', () => {
-                    value = value.substring(0, value.length - 1);
-                    onInput();
-                });
-                break;
-            }
-            case 'Tab': {
-                keyElement.addEventListener('click', () => {
-                    value = value + '   ';
-                    onInput();
-                });
-                break;
-            }
-            case 'Space': {
-                keyElement.addEventListener('click', () => {
-                    value = value + ' ';
-                    onInput();
-                });
-                break;
-            }
+            // Add events to keys
+            switch (key.keyCode) {
+                case 'langKey': {
+                    keyElement.addEventListener('click', () => {
+                        changeLanguage();
+                    });
+                    break;
+                }
+                case 'Backspace': {
+                    keyElement.addEventListener('click', () => {
+                        value = value.substring(0, value.length - 1);
+                        onInput();
+                    });
+                    break;
+                }
+                case 'Tab': {
+                    keyElement.addEventListener('click', () => {
+                        value = value + '   ';
+                        onInput();
+                    });
+                    break;
+                }
+                case 'Space': {
+                    keyElement.addEventListener('click', () => {
+                        value = value + ' ';
+                        onInput();
+                    });
+                    break;
+                }
+                case 'ShiftLeft': {
+                    keyElement.addEventListener('mousedown', () => {
+                        changeCase();
+                    });
+                    keyElement.addEventListener('mouseup', () => {
+                        changeCase();
+                    });
+                    break;
+                }
+                case 'ShiftRight': {
+                    keyElement.addEventListener('mousedown', () => {
+                        changeCase();
+                    });
+                    keyElement.addEventListener('mouseup', () => {
+                        changeCase();
+                    });
+                    break;
+                }
+                case 'CapsLock': {
+                    keyElement.addEventListener('click', () => {
+                        changeCase();
 
-            default: {
-                keyElement.addEventListener('click', e => {
-                    value += e.target.innerText;
-                    onInput();
-                })
+                    });
+                    break;
+                }
+                case 'Enter': {
+                    keyElement.addEventListener('click', () => {
+                        value = value + '\n';
+                        onInput();
+                    });
+                    break;
+                }
+                default: {
+                    keyElement.addEventListener('click', e => {
+                        value += e.target.innerText;
+                        onInput();
+                    })
+                }
             }
-        }
-        rowElement.appendChild(keyElement); // Собираем все клавиши одной строки вместе
+            rowElement.appendChild(keyElement); // Собираем все клавиши одной строки вместе
+        });
+        fragment.appendChild(rowElement); // Собираем все строки вместе
     });
-    fragment.appendChild(rowElement); // Собираем все строки вместе
-});
-return fragment;
-};
-
-// Метод для смены раскладки клавиатуры
-const changeLanguage = function() {
-    document.querySelectorAll(`.${lang}`).classList.add('hidden');
-    // if (lang === 'rus') {lang = 'eng'
-    // } else if (lang === 'eng') {lang = 'rus'
+    return fragment;
 };
 
 // Собираем клавиатуру
@@ -357,6 +390,52 @@ const createKeyboard = () => {
     keyboard.classList.add('keyboard');
     keyboard.appendChild(createKeys());
     return keyboard;
+};
+
+// Метод для смены раскладки клавиатуры
+const changeLanguage = function () {
+    const nodeListRus = document.querySelectorAll('.rus');
+    const nodeListEng = document.querySelectorAll('.eng');
+    if (lang === 'rus') {
+        lang = 'eng';
+        for (let item of nodeListRus) {
+            item.classList.add('hidden');
+        }
+        for (let item of nodeListEng) {
+            item.classList.remove('hidden');
+        }
+    } else {
+        lang = 'rus';
+        for (let item of nodeListEng) {
+            item.classList.add('hidden');
+        }
+        for (let item of nodeListRus) {
+            item.classList.remove('hidden');
+        }
+    }
+}
+
+// Метод для смены регистра
+const changeCase = function () {
+    const nodeListUpperCase = document.querySelectorAll('.upperCase');
+    const nodeListLowerCase = document.querySelectorAll('.lowerCase');
+    if (capsLock === 'lowerCase') {
+        capsLock = 'upperCase';
+        for (let item of nodeListLowerCase) {
+            item.classList.add('hidden');
+        }
+        for (let item of nodeListUpperCase) {
+            item.classList.remove('hidden');
+        }
+    } else {
+        capsLock = 'lowerCase';
+        for (let item of nodeListUpperCase) {
+            item.classList.add('hidden');
+        }
+        for (let item of nodeListLowerCase) {
+            item.classList.remove('hidden');
+        }
+    }
 };
 
 // Подключаем клавиатуру к нашей веб-странице после загрузки HTML-документа
@@ -376,86 +455,29 @@ window.addEventListener('DOMContentLoaded', () => {
     // Добавляем класс active к клавише при её нажатии на физической клавиатуре
     document.addEventListener('keydown', e => {
         document.querySelector(`.${e.code}`).classList.add('active');
+
+        // Создаем очередь для событий keydown и с её помощью проверяем необходимо ли сменить регистр (были ли одновременно нажаты ShiftLeft + AltLeft)
+        arr.push(e.code);
+        arr.shift();
+        if (arr.includes('ShiftLeft') && arr.includes('AltLeft')) {
+            changeLanguage();
+        } else if (e.code === 'CapsLock') {
+            changeCase();
+            document.querySelector('.CapsLock').classList.add('keyboard__key_inner'); // Почему-то не работает
+        } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            changeCase();
+        }
     });
 
-    // Удаляем класс active у клавиши при её отпускании на физической клавиатуре и добавляем содержимое в Textarea
+    // Удаляем класс active у клавиши при её отпускании на физической клавиатуре
     document.addEventListener('keyup', e => {
         document.querySelector(`.${e.code}`).classList.remove('active');
-        if (e.code === 'ShiftLeft' && e.code === 'AltLeft') {
-            changeLanguage();
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+            changeCase();
         }
+        // Переводим курсор в конец строки в Textarea, иначе при потере фокуса при наборе на физ. клавиатуре курсор переносится в начало строки
+        textArea.focus();
+        textArea.selectionStart = textArea.value.length;
 
-        switch (e.code) {
-
-        case 'Backspace': {
-            onInput();
-            break;
-        }
-        case 'Enter': {
-            onInput();
-            break;
-        }
-        case 'Tab': {
-            onInput();
-            break;
-        }
-        case 'CapsLock': {
-            onInput();
-            break;
-        }
-        case 'MetaLeft': {
-            onInput();
-            break;
-        }
-        case 'ShiftLeft': {
-            onInput();
-            break;
-        }
-        case 'ShiftRight': {
-            onInput();
-            break;
-        }
-        case 'ControlLeft': {
-            onInput();
-            break;
-        }
-        case 'ControlRight': {
-            onInput();
-            break;
-        }
-        case 'AltLeft': {
-            onInput();
-            break;
-        }
-        case 'AltRight': {
-            onInput();
-            break;
-        }
-        case 'Space': {
-            onInput();
-            break;
-        }
-        case 'ArrowUp': {
-            onInput();
-            break;
-        }
-        case 'ArrowDown': {
-            onInput();
-            break;
-        }
-        case 'ArrowLeft': {
-            onInput();
-            break;
-        }
-        case 'ArrowRight': {
-            onInput();
-            break;
-        }
-        default: {
-            value += e.key;
-            onInput();
-            break;
-        }
-        }
-    })
+    });
 });
