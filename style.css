@@ -7,11 +7,12 @@
 
 .keyboard-input {
     margin: 100px auto 100px;
-    width: 40%;
+    width: 780px;
     min-height: 30vh;
 }
 
 .keyboard {
+    width: 780px;
     background: rgba(74, 61, 60, 0.55);
     user-select: none;
     box-shadow:  0 -10px 70px 0 rgba(50, 50, 50, 0.57);

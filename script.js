@@ -359,7 +359,11 @@ const createKeys = () => {
                 case 'CapsLock': {
                     keyElement.addEventListener('click', () => {
                         changeCase();
-
+                        if (capsLock === 'lowerCase') {
+                            document.querySelector('.CapsLock').classList.remove('keyboard__key_inner');
+                        } else if (capsLock === 'upperCase') {
+                            document.querySelector('.CapsLock').classList.add('keyboard__key_inner');
+                        }
                     });
                     break;
                 }
@@ -368,6 +372,30 @@ const createKeys = () => {
                         value = value + '\n';
                         onInput();
                     });
+                    break;
+                }
+                case 'AltLeft': {
+                    onInput();
+                    break;
+                }
+                case 'AltRight': {
+                    onInput();
+                    break;
+                }
+                case 'ControlLeft': {
+                    onInput();
+                    break;
+                }
+                case 'ControlRight': {
+                    onInput();
+                    break;
+                }
+                case 'ControlRight': {
+                    onInput();
+                    break;
+                }
+                case 'Delete': {
+                    onInput();
                     break;
                 }
                 default: {
@@ -461,9 +489,17 @@ window.addEventListener('DOMContentLoaded', () => {
         arr.shift();
         if (arr.includes('ShiftLeft') && arr.includes('AltLeft')) {
             changeLanguage();
+
+        // Меняем регистр при нажатии на Caps lock на физ. клавиатуре и подсвечиваем клавишу
         } else if (e.code === 'CapsLock') {
             changeCase();
-            document.querySelector('.CapsLock').classList.add('keyboard__key_inner'); // Почему-то не работает
+            if (capsLock === 'lowerCase') {
+                document.querySelector('.CapsLock').classList.remove('keyboard__key_inner');
+            } else if (capsLock === 'upperCase') {
+                document.querySelector('.CapsLock').classList.add('keyboard__key_inner');
+            }
+
+        // Меняем регистр при нажатии на Shift на физ. клавиатуре
         } else if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             changeCase();
         }
