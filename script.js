@@ -1,8 +1,9 @@
-let lang = 'rus';
-let capsLock = 'lowerCase';
+let lang = localStorage.getItem('lang') || 'rus';
+let capsLock = localStorage.getItem('capslock') || 'lowerCase';
 let value = '';
 let onInput;
 let arr = [0, 1];
+const textArea = document.createElement('textarea');
 const keys = [
     [{
         rus: {upperCase: 'Ё', lowerCase: 'ё'},
@@ -294,14 +295,14 @@ const createKeys = () => {
                     const span = document.createElement('span');
                     span.classList.add(keyLang);
                     if (keyLang !== lang) {
-                        span.classList.add('hidden')
+                        span.classList.add('hidden');
                     }
                     for (let prop in key[keyLang]) {
                         // Добавляем обертку для разных регистров
                         const propElement = document.createElement('span');
                         propElement.classList.add(prop);
                         if (prop !== capsLock) {
-                            propElement.classList.add('hidden')
+                            propElement.classList.add('hidden');
                         }
                         propElement.innerText = key[keyLang][prop];
                         span.appendChild(propElement);
@@ -357,6 +358,9 @@ const createKeys = () => {
                     break;
                 }
                 case 'CapsLock': {
+                    if (capsLock === 'upperCase') {
+                        document.querySelector('.CapsLock').classList.add('keyboard__key_inner');
+                    }
                     keyElement.addEventListener('click', () => {
                         changeCase();
                         if (capsLock === 'lowerCase') {
@@ -390,19 +394,24 @@ const createKeys = () => {
                     onInput();
                     break;
                 }
-                case 'ControlRight': {
-                    onInput();
-                    break;
-                }
                 case 'Delete': {
-                    onInput();
+                    keyElement.addEventListener('click', () => {
+                        // Отслеживаем положение курсора в TextArea, выделяем следующий символ и удаляем его
+                        if (textArea.selectionStart === textArea.selectionEnd) {
+                            // let deletePosition = textArea.selectionStart;
+                            textArea.setRangeText("", textArea.selectionStart, textArea.selectionStart + 1, "end");
+                        } else {
+                            // Удаляем выделенную область текста
+                            textArea.setRangeText("", textArea.selectionStart, textArea.selectionEnd, "end");
+                        }
+                    });
                     break;
                 }
                 default: {
                     keyElement.addEventListener('click', e => {
                         value += e.target.innerText;
                         onInput();
-                    })
+                    });
                 }
             }
             rowElement.appendChild(keyElement); // Собираем все клавиши одной строки вместе
@@ -426,6 +435,7 @@ const changeLanguage = function () {
     const nodeListEng = document.querySelectorAll('.eng');
     if (lang === 'rus') {
         lang = 'eng';
+        localStorage.setItem('lang', lang);
         for (let item of nodeListRus) {
             item.classList.add('hidden');
         }
@@ -434,6 +444,7 @@ const changeLanguage = function () {
         }
     } else {
         lang = 'rus';
+        localStorage.setItem('lang', lang);
         for (let item of nodeListEng) {
             item.classList.add('hidden');
         }
@@ -449,6 +460,7 @@ const changeCase = function () {
     const nodeListLowerCase = document.querySelectorAll('.lowerCase');
     if (capsLock === 'lowerCase') {
         capsLock = 'upperCase';
+        localStorage.setItem('capslock', capsLock);
         for (let item of nodeListLowerCase) {
             item.classList.add('hidden');
         }
@@ -457,6 +469,7 @@ const changeCase = function () {
         }
     } else {
         capsLock = 'lowerCase';
+        localStorage.setItem('capslock', capsLock);
         for (let item of nodeListUpperCase) {
             item.classList.add('hidden');
         }
@@ -470,7 +483,6 @@ const changeCase = function () {
 window.addEventListener('DOMContentLoaded', () => {
     const main = document.createElement('main');
     main.classList.add('keyboard-wrapper');
-    const textArea = document.createElement('textarea');
     textArea.classList.add('keyboard-input');
     textArea.setAttribute("autofocus", "");
     textArea.addEventListener('input', e => value = e.target.value);
@@ -511,9 +523,5 @@ window.addEventListener('DOMContentLoaded', () => {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             changeCase();
         }
-        // Переводим курсор в конец строки в Textarea, иначе при потере фокуса при наборе на физ. клавиатуре курсор переносится в начало строки
-        textArea.focus();
-        textArea.selectionStart = textArea.value.length;
-
     });
 });

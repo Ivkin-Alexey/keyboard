@@ -16,10 +16,6 @@
     background: rgba(74, 61, 60, 0.55);
     user-select: none;
     box-shadow:  0 -10px 70px 0 rgba(50, 50, 50, 0.57);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     transition-property: bottom;
     transition-duration: 0.5s;
     text-align: center;
@@ -28,14 +24,13 @@
     font-family: "Trebuchet MS", "Helvetica", sans-serif;
 }
 
-.keyboard__row {
+div .keyboard__row {
     display: flex;
     justify-content: space-between;
 }
 
 .keyboard__key {
     width: 40px;
-    max-width: 90px;
     height: 4vh;
     cursor: pointer;
     border-radius: 4px;
@@ -54,22 +49,18 @@
 
 .keyboard__key_half-wide {
     width: 50px;
-    max-width: 130px;
 }
 
 .keyboard__key_wide {
     width: 100px;
-    max-width: 180px;
 }
 
 .keyboard__key_less-wide {
     width: 80px;
-    max-width: 180px;
 }
 
 .keyboard__key_very-wide {
     width: 320px;
-    max-width: 400px;
 }
 
 .keyboard__key:active {
