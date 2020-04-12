@@ -1,0 +1,79 @@
+.keyboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.keyboard-input {
+    margin: 100px auto 100px;
+    width: 780px;
+    min-height: 30vh;
+}
+
+.keyboard {
+    width: 780px;
+    background: rgba(74, 61, 60, 0.55);
+    user-select: none;
+    box-shadow:  0 -10px 70px 0 rgba(50, 50, 50, 0.57);
+    transition-property: bottom;
+    transition-duration: 0.5s;
+    text-align: center;
+    border-radius: 4px;
+    border: 5px solid rgba(42, 32, 31, 0.55);
+    font-family: "Trebuchet MS", "Helvetica", sans-serif;
+}
+
+div .keyboard__row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.keyboard__key {
+    width: 40px;
+    height: 4vh;
+    cursor: pointer;
+    border-radius: 4px;
+    background: rgba(43, 43, 43, 0.78);
+    color: white;
+    margin: 5px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px -2px 11px 0px rgba(50, 50, 50, 0.68);
+}
+
+.keyboard__key_inner {
+    color: #0cc928;
+}
+
+.keyboard__key_half-wide {
+    width: 50px;
+}
+
+.keyboard__key_wide {
+    width: 100px;
+}
+
+.keyboard__key_less-wide {
+    width: 80px;
+}
+
+.keyboard__key_very-wide {
+    width: 320px;
+}
+
+.keyboard__key:active {
+    background: rgba(155, 155, 155, 0.2);
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    background: rgba(155, 155, 155, 0.2);
+}
+
+
+
