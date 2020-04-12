@@ -358,9 +358,6 @@ const createKeys = () => {
                     break;
                 }
                 case 'CapsLock': {
-                    if (capsLock === 'upperCase') {
-                        document.querySelector('.CapsLock').classList.add('keyboard__key_inner');
-                    }
                     keyElement.addEventListener('click', () => {
                         changeCase();
                         if (capsLock === 'lowerCase') {
