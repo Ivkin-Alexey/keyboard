@@ -1,2 +1,2 @@
-задание - https://github.com/rolling-scopes-school/tasks/blob/master/tasks/codejam-virtual-keyboard.md
+Виртуальная клавиатура
 демо - https://ivkin-alexey.github.io/virtual-keyboard/
